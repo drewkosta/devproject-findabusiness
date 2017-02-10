@@ -1,37 +1,52 @@
-## The Development Excercise
+## The Development Exercise
 
 ### Overview
 Thanks for your interest in Waymark! The development team will use this exercise to help determine if you may be a suitable candidate for the position. Please spend no more than **8 hours** completing this project.
 
 ### Description
-Build an application that allows a user to search for a business. Allow the user to search with a business name, business phone number, and business zip code. Business name or business phone number are required to submit a search.
+Build an application that allows a user to search for a business using a business name, business phone number, and business zip code. To submit a search, the user should be required to provide a zip code, as well as either a phone number or a business name (or  both).
 
 On search, identify the business, and then display to the user a set of information related to that business:
-* The business name, phone number, email, mailing address, and industry/category
-* Up to 5 photos that best represent the business
-* For each photo, display one or more tags that describe its contents (e.g. 'dog', 'hamburger', 'wombat')
-* Five sample ad headlines for the business, featuring the business info (e.g. 'Nailzz, the best nail salon in Worcester!')
-    - e.g.
+- The business name, phone number, email, address, and industry/category
+- Up to 5 photos that best represent the business
+- For each photo, display one or more tags that describe its contents (e.g. 'dog', 'hamburger', 'wombat')
+- Five sample ad headlines for the business, featuring the business info
+    - E.g. if the returned business was `Astro Coffee; (313) 808-0351; astrocoffee@gmail.com; 1234 Main St. Detroit, MI; coffee shops`, your headlines might be:
+      - 'Check out Astro Coffee, the best coffee shop in Detroit'
+      - 'Detroit's best coffee shot -- call (313) 808-0351'
+      - 'Check out Astro Coffee and join our mailing list! Write astrocoffee@gmail.com'
+      - Etc.
 
 ### 3rd Party Requirements
-  - [Clairifai API](https://developer.clarifai.com/quick-start/)
+  - Use the [Google Places API](https://developers.google.com/places/web-service/) to search for a business, retrieve business info, and find business photos.
+    - Call format
+      - `https://maps.googleapis.com/maps/api/place/[service]/json?[params]`
+    - Services
+      - Text search: `/textsearch`
+        - E.g., `https://maps.googleapis.com/maps/api/place/textsearch/json?key=[KEY]&query=[query]`
+      - Details: `/details`
+        - E.g., `https://maps.googleapis.com/maps/api/place/details/json?key=[KEY]&placeid=[place_id]`
+      - Photo: `/photo`
+        - E.g., `https://maps.googleapis.com/maps/api/place/photo?key=[KEY]&photoreference=[photoreference]`
+    - API Credentials
+      - API Key: `AIzaSyBfmjsT-RvKxn7in_6OEkfFdNlFWqoV73s`
+  - Use the [Clairifai API](https://developer.clarifai.com/quick-start/) to tag images based on their content.
     - As discussed below, the Javascript library has been pre-installed if you want to use it.
     - API Credentials
       - App Id: `NO18sIhXk9nZDkAdVXNPSThzPXPI8wHn78vAncxe`
       - App Secret: `c2vHENnTnNj6XdFkXCEWbG1g1oSdBmTqOTO44eP9`
 
 ### Deliverable
-Upon completion, please send us a link to your copy of this repository on (preferably on GitHub). We prefer you not use GitHub's forking because they are public by default.
+Upon completion, please send us a link to your copy of this repository (preferably on GitHub). Please do not fork the repo; instead, follow these steps:
 
-For example:
 - Clone this repository
-  - e.g. `git clone https://github.com/stikdev/devproject-findabusiness.git`
+  - E.g. `git clone https://github.com/stikdev/devproject-findabusiness.git`
 - Create an empty GitHub repository
-  - e.g. `https://github.com/your-user-name/devproject-findabusiness.git`
+  - E.g. `https://github.com/your-user-name/devproject-findabusiness.git`
 - Add a remote to your empty repository
-  - e.g. `git remote add my-origin https://github.com/your-user-name/devproject-findabusiness.git`
+  - E.g. `git remote add my-origin https://github.com/your-user-name/devproject-findabusiness.git`
 - Then you should be able to commit your changes and push them up to your repository
-  - e.g. `git push my-origin master`
+  - E.g. `git push my-origin master`
 
 ## The Development Environment
 
@@ -54,10 +69,11 @@ For example:
 
 ### How It Works
 
-By default, the core of the application runs through `src/main.js`. Within `main.js`, we've provided a few examples of the configurations available to you, ranging from bare-bones JS, to CoffeeScript+React, to AngularJS. Comment out any of the examples in `main.js` to see them in action.
+By default, the core of the application runs through `src/main.js`. Within `main.js`, we've provided a few examples of the configurations available to you, ranging from bare-bones JS, to CoffeeScript+React, to AngularJS. Uncomment any of the examples in `main.js` to see them in action.
 
 To start:
-1. In one terminal session `npm run watch` to compile the JS/CSS. This will both compile `src/main.js` into `dist/js/main.bundle.js` and re-compile if any changes are made.
+
+1. In one terminal session `npm run watch` to compile the JS/CSS. This will compile `src/main.js` into `dist/js/main.bundle.js`, and then re-compile when any changes are made.
 2. In another terminal session `npm run serve` to serve up the `dist/` directory at `localhost:8080`.
 
 By default, `localhost:8080` is configured to serve up `dist/index.html`, which runs the Javscript example within `dist/js/main.bundle.js`.
@@ -76,6 +92,7 @@ The following libraries have been pre-installed/configured:
   - [CoffeeScript](http://coffeescript.org)
   - ES2015
   - JSX
+  - CJSX
 - Javscript 'Frameworks'
   - [jQuery](https://jquery.com)
   - [React/ReactDOM](https://facebook.github.io/react/)
@@ -92,3 +109,6 @@ The following libraries have been pre-installed/configured:
 - 3rd Party Clients
   - [clarifai](https://developer.clarifai.com/quick-start/)
     - For use with the clairifai web API
+
+## Questions?
+If you have any questions or issues, please feel free to reach out to anyone on the team, or simply ping us at [tech@waymark.com](mailto:tech@waymark.com). Go Wombats!
