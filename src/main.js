@@ -6,7 +6,7 @@ require('./main.scss')
 // example by default.
 
 // Here's an example of starting with plain-old Javscript
-require('./javascript_example/entry.js')
+// require('./javascript_example/entry.js')
 
 // Here's an example of starting with plain-old CoffeeScript
 // require('./coffeescript_example/entry.coffee')
@@ -15,7 +15,7 @@ require('./javascript_example/entry.js')
 // require('./coffeescript_react_example/entry.cjsx')
 
 // Here's an example of starting with React
-// require('./react_example/entry.jsx')
+require('./react_components/entry.jsx')
 
 // Here's an example of starting with Angular
 // require('./angular_example/entry.js')
