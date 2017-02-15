@@ -1,5 +1,8 @@
 import React from 'react';
 import SearchForm from './SearchForm.jsx';
+import Photos from './Photos.jsx';
+import Header from './Header.jsx';
+import Clarifai from 'clarifai';
 
 class App extends React.Component {
   constructor () {
@@ -23,52 +26,74 @@ class App extends React.Component {
           placeId => { 
             this.getDetails(
               placeId,
-              data => console.log(data)  
+              data => {
+                const pics = [];
+                for (let i = 0; i < 5; i++) {
+                  if (data.photos[i]) {
+                    pics.push(data.photos[i].getUrl({ 'maxWidth': 500, 'maxHeight': 500 }));
+                  }
+                }
+                const app = new Clarifai.App('NO18sIhXk9nZDkAdVXNPSThzPXPI8wHn78vAncxe', 'c2vHENnTnNj6XdFkXCEWbG1g1oSdBmTqOTO44eP9');
+                app.models.predict(Clarifai.GENERAL_MODEL, pics).then(clarifaiData => {
+                  const photoData = [];
+                  for (let i = 0; i < 5; i++) {
+                    photoData.push({
+                      url: pics[i],
+                      tag: clarifaiData.outputs[i].data.concepts[0].name
+                    });
+                  }
+                  this.setState({
+                    searchData: {
+                      name: data.name,
+                      phone: data.formatted_phone_number,
+                      address: data.formatted_address,
+                      website: data.website,
+                      category: data.types[0],
+                    },
+                    photoData: photoData
+                  });
+                });
+              }  
             )
           }
-        )
+        );
       }
     );
   }
   
   getLatLong (zip, callback) {
-    console.log('in getLatLong')
     $.get(
       'http://maps.googleapis.com/maps/api/geocode/json?address=' + zip,
       data => {
         callback(data);
       }
-    )
+    );
   }
   
   getPlaces (bounds, callback) {
-    console.log('in getPlaces')
-      const mapOptions = {
-        zoom: 1,
-        center: new google.maps.LatLng(0,0)
-      };
-      const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-      console.log(map)
-      const request = {
-        bounds: bounds,
-        keyword: document.getElementById('phone').value,
-        name: document.getElementById('name').value
-      };
-      
-      const gMaps = new google.maps.places.PlacesService(map);
-      gMaps.nearbySearch(
-        request,
-        data => {
-          console.log(data);
-          if (data[0]) {
-            callback(data[0].place_id);
-          }
+    const mapOptions = {
+      zoom: 1,
+      center: new google.maps.LatLng(0,0)
+    };
+    const map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    const request = {
+      bounds: bounds,
+      keyword: document.getElementById('phone').value,
+      name: document.getElementById('name').value
+    };
+    
+    const gMaps = new google.maps.places.PlacesService(map);
+    gMaps.nearbySearch(
+      request,
+      data => {
+        if (data[0]) {
+          callback(data[0].place_id);
         }
-      );
+      }
+    );
   }
   
   getDetails (placeId, callback) {
-    console.log(placeId)
     const mapOptions = {
       zoom: 1,
       center: new google.maps.LatLng(0,0)
@@ -79,8 +104,6 @@ class App extends React.Component {
     gMaps.getDetails(
       { placeId: placeId },
       data => {
-        console.log(data)
-        console.log(data.photos[0].getUrl({ 'maxWidth': 500, 'maxHeight': 500 }))
         callback(data);
       }
     );
@@ -90,6 +113,10 @@ class App extends React.Component {
     return (
       <div>
         <SearchForm handleSubmit={this.handleSubmit.bind(this)} />
+        <div>
+          <Header data={this.state.searchData} />
+          <Photos data={this.state.photoData} />
+        </div>
       </div>
     )
   }
