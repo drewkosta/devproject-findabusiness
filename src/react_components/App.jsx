@@ -8,7 +8,8 @@ class App extends React.Component {
   constructor () {
     super();
     this.state = {
-      searchData: {}
+      searchData: {},
+      photoData: []
     };
   }
   
@@ -81,8 +82,8 @@ class App extends React.Component {
       keyword: document.getElementById('phone').value,
       name: document.getElementById('name').value
     };
-    
     const gMaps = new google.maps.places.PlacesService(map);
+    
     gMaps.nearbySearch(
       request,
       data => {
@@ -99,8 +100,8 @@ class App extends React.Component {
       center: new google.maps.LatLng(0,0)
     };
     const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
     const gMaps = new google.maps.places.PlacesService(map);
+    
     gMaps.getDetails(
       { placeId: placeId },
       data => {
@@ -115,10 +116,10 @@ class App extends React.Component {
         <SearchForm handleSubmit={this.handleSubmit.bind(this)} />
         <div>
           <Header data={this.state.searchData} />
-          <Photos data={this.state.photoData} />
+          <Photos photos={this.state.photoData} />
         </div>
       </div>
-    )
+    );
   }
 }
 
